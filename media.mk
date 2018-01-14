@@ -1,0 +1,225 @@
+MEDIA_MENU:=Multimedia
+
+define KernelPackage/dvb-core
+  SUBMENU:=$(MEDIA_MENU)
+  TITLE:=dvb core support
+  DEPENDS:=@PCI_SUPPORT||USB_SUPPORT +PACKAGE_kmod-i2c-core:kmod-i2c-core +kmod-input-core
+  KCONFIG:= \
+  	CONFIG_MEDIA_SUPPORT=m \
+	CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y \
+	CONFIG_DVB_MAX_ADAPTERS=8 \
+	CONFIG_DVB_NET=n \
+	CONFIG_DVB_DYNAMIC_MINORS=n \
+	CONFIG_DVB_CORE \
+	CONFIG_MEDIA_RC_SUPPORT=y \
+	CONFIG_RC_CORE=m \
+	CONFIG_RC_DEVICES=n 
+
+  FILES:= \
+	$(LINUX_DIR)/drivers/media/rc/rc-core.ko \
+	$(LINUX_DIR)/drivers/media/dvb-core/dvb-core.ko
+#  AUTOLOAD:=$(call AutoLoad,60, rc-core dvb-core)
+endef
+
+define KernelPackage/dvb-core/description
+ Kernel modules for dvb support
+endef
+
+$(eval $(call KernelPackage,dvb-core))
+
+define KernelPackage/dvb-usb
+  SUBMENU:=$(MEDIA_MENU)
+  TITLE:=DVB USB support
+  DEPENDS:=+kmod-dvb-core +kmod-usb-core
+  KCONFIG:= \
+    CONFIG_MEDIA_USB_SUPPORT=y \
+    CONFIG_DVB_USB \
+    CONFIG_DVB_USB_DEBUG=n
+  FILES:= $(LINUX_DIR)/drivers/media/usb/dvb-usb/dvb-usb.ko
+endef
+
+define KernelPackage/dvb-core/description
+ Kernel modules for DVB USB support
+endef
+
+$(eval $(call KernelPackage,dvb-usb))
+
+define KernelPackage/dvb-usb-dib0700
+  SUBMENU:=$(MEDIA_MENU)
+  TITLE:=DiBcom DiB0700 USB DVB devices support
+  DEPENDS:=+kmod-dvb-usb 
+  KCONFIG:= \
+    CONFIG_DVB_DIB3000MC=m \
+    CONFIG_DVB_DIB3000MB=m \
+    CONFIG_DVB_DIB7000P=m \
+    CONFIG_DVB_DIB7000M=m \
+    CONFIG_DVB_DIB9000=m \
+    CONFIG_DVB_PLL=m \
+    CONFIG_DVB_TUNER_DIB0070=m \
+    CONFIG_DVB_TUNER_DIB0090=m \
+    CONFIG_DVB_USB_DIB0700 \
+    CONFIG_VIDEO_AU0828=n \
+    CONFIG_DVB_USB_A800=n \
+    CONFIG_DVB_USB_DIBUSB_MB=n \
+    CONFIG_DVB_USB_DIBUSB_MC=n \
+    CONFIG_DVB_USB_UMT_010=n \
+    CONFIG_DVB_USB_CXUSB=n \
+    CONFIG_DVB_USB_M920X=n \
+    CONFIG_DVB_USB_DIGITV=n \
+    CONFIG_DVB_USB_VP7045=n \
+    CONFIG_DVB_USB_VP702X=n \
+    CONFIG_DVB_USB_GP8PSK=n \
+    CONFIG_DVB_USB_NOVA_T_USB2=n \
+    CONFIG_DVB_USB_TTUSB2=n \
+    CONFIG_DVB_USB_DTT200U=n \
+    CONFIG_DVB_USB_OPERA1=n \
+    CONFIG_DVB_USB_AF9005=n \
+    CONFIG_DVB_USB_PCTV452E=n \
+    CONFIG_DVB_USB_DW2102=n \
+    CONFIG_DVB_USB_CINERGY_T2=n \
+    CONFIG_DVB_USB_DTV5100=n \
+    CONFIG_DVB_USB_FRIIO=n \
+    CONFIG_DVB_USB_AZ6027=n \
+    CONFIG_DVB_USB_TECHNISAT_USB2=n \
+    CONFIG_DVB_USB_V2=n \
+    CONFIG_DVB_TTUSB_BUDGET=n \
+    CONFIG_DVB_TTUSB_DEC=n \
+    CONFIG_SMS_USB_DRV=n \
+    CONFIG_DVB_B2C2_FLEXCOP_USB=n \
+    CONFIG_DVB_AS102=n \
+    CONFIG_MEDIA_TUNER_SIMPLE=n \
+    CONFIG_MEDIA_TUNER_TDA8290=n \
+    CONFIG_MEDIA_TUNER_TDA827X=n \
+    CONFIG_MEDIA_TUNER_TDA18271=n \
+    CONFIG_MEDIA_TUNER_TDA9887=n \
+    CONFIG_MEDIA_TUNER_TEA5761=n \
+    CONFIG_MEDIA_TUNER_TEA5767=n \
+    CONFIG_MEDIA_TUNER_MSI001=n \
+    CONFIG_MEDIA_TUNER_MT20XX=n \
+    CONFIG_MEDIA_TUNER_MT2060=n \
+    CONFIG_MEDIA_TUNER_MT2063=n \
+    CONFIG_MEDIA_TUNER_MT2266=n \
+    CONFIG_MEDIA_TUNER_MT2131=n \
+    CONFIG_MEDIA_TUNER_QT1010=n \
+    CONFIG_MEDIA_TUNER_XC2028=n \
+    CONFIG_MEDIA_TUNER_XC5000=n \
+    CONFIG_MEDIA_TUNER_XC4000=n \
+    CONFIG_MEDIA_TUNER_MXL5005S=n \
+    CONFIG_MEDIA_TUNER_MXL5007T=n \
+    CONFIG_MEDIA_TUNER_MC44S803=n \
+    CONFIG_MEDIA_TUNER_MAX2165=n \
+    CONFIG_MEDIA_TUNER_TDA18218=n \
+    CONFIG_MEDIA_TUNER_FC0011=n \
+    CONFIG_MEDIA_TUNER_FC0012=n \
+    CONFIG_MEDIA_TUNER_FC0013=n \
+    CONFIG_MEDIA_TUNER_TDA18212=n \
+    CONFIG_MEDIA_TUNER_E4000=n \
+    CONFIG_MEDIA_TUNER_FC2580=n \
+    CONFIG_MEDIA_TUNER_M88TS2022=n \
+    CONFIG_MEDIA_TUNER_TUA9001=n \
+    CONFIG_MEDIA_TUNER_SI2157=n \
+    CONFIG_MEDIA_TUNER_IT913X=n \
+    CONFIG_MEDIA_TUNER_R820T=n \
+    CONFIG_MEDIA_TUNER_MXL301RF=n \
+    CONFIG_MEDIA_TUNER_QM1D1C0042=n \
+    CONFIG_DVB_STB0899=n \
+    CONFIG_DVB_STB6100=n \
+    CONFIG_DVB_STV090x=n \
+    CONFIG_DVB_STV6110x=n \
+    CONFIG_DVB_DRXK=n \
+    CONFIG_DVB_TDA18271C2DD=n \
+    CONFIG_DVB_SI2165=n \
+    CONFIG_DVB_CX24110=n \
+    CONFIG_DVB_CX24123=n \
+    CONFIG_DVB_MT312=n \
+    CONFIG_DVB_ZL10036=n \
+    CONFIG_DVB_ZL10039=n \
+    CONFIG_DVB_S5H1420=n \
+    CONFIG_DVB_STV0288=n \
+    CONFIG_DVB_STB6000=n \
+    CONFIG_DVB_STV0299=n \
+    CONFIG_DVB_STV6110=n \
+    CONFIG_DVB_STV0900=n \
+    CONFIG_DVB_TDA8083=n \
+    CONFIG_DVB_TDA10086=n \
+    CONFIG_DVB_TDA8261=n \
+    CONFIG_DVB_VES1X93=n \
+    CONFIG_DVB_TUNER_ITD1000=n \
+    CONFIG_DVB_TUNER_CX24113=n \
+    CONFIG_DVB_TDA826X=n \
+    CONFIG_DVB_TUA6100=n \
+    CONFIG_DVB_CX24116=n \
+    CONFIG_DVB_CX24117=n \
+    CONFIG_DVB_SI21XX=n \
+    CONFIG_DVB_TS2020=n \
+    CONFIG_DVB_DS3000=n \
+    CONFIG_DVB_MB86A16=n \
+    CONFIG_DVB_TDA10071=n \
+    CONFIG_DVB_SP8870=n \
+    CONFIG_DVB_SP887X=n \
+    CONFIG_DVB_CX22700=n \
+    CONFIG_DVB_CX22702=n \
+    CONFIG_DVB_S5H1432=n \
+    CONFIG_DVB_DRXD=n \
+    CONFIG_DVB_L64781=n \
+    CONFIG_DVB_TDA1004X=n \
+    CONFIG_DVB_NXT6000=n \
+    CONFIG_DVB_MT352=n \
+    CONFIG_DVB_ZL10353=n \
+    CONFIG_DVB_TDA10048=n \
+    CONFIG_DVB_AF9013=n \
+    CONFIG_DVB_EC100=n \
+    CONFIG_DVB_HD29L2=n \
+    CONFIG_DVB_STV0367=n \
+    CONFIG_DVB_CXD2820R=n \
+    CONFIG_DVB_RTL2830=n \
+    CONFIG_DVB_VES1820=n \
+    CONFIG_DVB_TDA10021=n \
+    CONFIG_DVB_TDA10023=n \
+    CONFIG_DVB_STV0297=n \
+    CONFIG_DVB_NXT200X=n \
+    CONFIG_DVB_OR51211=n \
+    CONFIG_DVB_OR51132=n \
+    CONFIG_DVB_BCM3510=n \
+    CONFIG_DVB_LGDT330X=n \
+    CONFIG_DVB_LGDT3305=n \
+    CONFIG_DVB_LG2160=n \
+    CONFIG_DVB_S5H1409=n \
+    CONFIG_DVB_AU8522_DTV=n \
+    CONFIG_DVB_S5H1411=n \
+    CONFIG_DVB_S921=n \
+    CONFIG_DVB_DIB8000=n \
+    CONFIG_DVB_MB86A20S=n \
+    CONFIG_DVB_TC90522=n \
+    CONFIG_DVB_DRX39XYJ=n \
+    CONFIG_DVB_LNBP21=n \
+    CONFIG_DVB_LNBP22=n \
+    CONFIG_DVB_ISL6405=n \
+    CONFIG_DVB_ISL6421=n \
+    CONFIG_DVB_ISL6423=n \
+    CONFIG_DVB_A8293=n \
+    CONFIG_DVB_SP2=n \
+    CONFIG_DVB_LGS8GL5=n \
+    CONFIG_DVB_LGS8GXX=n \
+    CONFIG_DVB_ATBM8830=n \
+    CONFIG_DVB_TDA665x=n \
+    CONFIG_DVB_IX2505V=n \
+    CONFIG_DVB_M88RS2000=n \
+    CONFIG_DVB_AF9033=n
+  FILES:= \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dibx000_common.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib0070.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib0090.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib3000mb.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib3000mc.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib7000p.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib7000m.ko \
+    $(LINUX_DIR)/drivers/media/dvb-frontends/dib9000.ko \
+    $(LINUX_DIR)/drivers/media/usb/dvb-usb/dvb-usb-dib0700.ko
+endef
+
+define KernelPackage/dvb-core/description
+  Kernel modules DiBcom DiB0700 USB DVB devices support
+endef
+
+$(eval $(call KernelPackage,dvb-usb-dib0700))
